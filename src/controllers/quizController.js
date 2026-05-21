@@ -1,0 +1,64 @@
+var quizModel = require("../models/quizModel");
+
+function guardarResposta (req, res){
+
+    var fkUsuario = req.body.fkUsuario;
+    var fkOpcao = req.body.fkOpcao;
+
+    if (fkUsuario == undefined) {
+        res.status(400).send("Usuário não encontrado.");
+
+    } else if (fkOpcao == undefined) {
+        res.status(400).send("Opção não encontrada.");
+
+    } else {
+
+        quizModel.guardarResposta(fkUsuario, fkOpcao)
+            .then(
+
+                function(resultado){
+                    res.status(201).json(resultado);
+                }
+
+            )
+
+            .catch(
+                
+                function(erro){
+                console.log(erro);
+                console.log("\nHouve um erro", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            })
+    }
+
+}
+
+function mostrarResultado (req, res){
+    var fkUsuario = req.params.fkUsuario;
+
+    quizModel.mostrarResultado(fkUsuario)
+    .then(
+        function(resultado){
+            if(resultado.length > 0){
+                res.json(resultado);
+
+            } else {
+                res.status(204).send("Nenhum resultado foi encontrado.")
+            }
+        }
+    )
+
+    .catch(
+        function(erro){
+        console.log(erro);
+        console.log("\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);}
+
+    )
+}
+
+module.exports = {
+    guardarResposta,
+    mostrarResultado
+}
+

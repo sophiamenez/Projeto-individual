@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+
+
+    <link rel="stylesheet" href="./../css/dashboards.css">
+    <link rel="stylesheet" href="./../css/estilo.css" />
+
+    <script src="../js/sessao.js"></script>
+    <script src="../js/alerta.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body onload="validarSessao()">
+
+    <div class="janela">
+
+        <div class="header-left dash-header">
+
+            <h1>Meu Titulo</h1>
+
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+
+            <div class="btn-nav">
+                <h3>Perguntas e Respostas</h3>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./dashboard.html">
+                    <h3>Resultados</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Avisos</h3>
+                </a>
+            </div>
+
+            <div class="btn-logout" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+
+        </div>
+
+    <div class="dash">
+
+        <div class="container-quiz">
+
+            <div class= "questions-container hide">
+
+                <span class="question">Pergunta aqui?</span>
+                <div class="answers-container">
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <button class="start-quiz button">Começar Quiz!</button>
+                <button class="next-question button hide">Próxima pergunta</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<script>
+
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO
+
+const $startGameButton = document.querySelector(".start-quiz")
+const $nextQuestionButton = document.querySelector(".next-question")
+const $questionsContainer = document.querySelector(".questions-container")
+const $questionText = document.querySelector(".question")
+const $answersContainer = document.querySelector(".answers-container")
+
+let currentQuestionIndex = 0
+
+$startGameButton.addEventListener("click", startGame)
+$nextQuestionButton.addEventListener("click", displayNextQuestion)
+
+function startGame() {
+    $startGameButton.classList.add("hide")
+    $questionsContainer.classList.remove("hide")
+    displayNextQuestion()
+}
+
+function displayNextQuestion() {
+    resetState()
+
+    if (questions.length === currentQuestionIndex) {
+        return finishGame()
+    }
+
+    $questionText.textContent = questions[currentQuestionIndex].pergunta
+    questions[currentQuestionIndex].opcoes.forEach(opcao => {
+        const newAnswer = document.createElement("button")
+        newAnswer.classList.add("button", "answer")
+        newAnswer.textContent = opcao.texto
+        newAnswer.dataset.perfil = opcao.perfil
+        newAnswer.dataset.id = opcao.id
+        $answersContainer.appendChild(newAnswer)
+        newAnswer.addEventListener("click", selectAnswer)
+    })
+}
+
+function resetState() {
+    while ($answersContainer.firstChild) {
+        $answersContainer.removeChild($answersContainer.firstChild)
+    }
+    $nextQuestionButton.classList.add("hide")
+}
+
+function selectAnswer(event) {
+    const answerClicked = event.target
+
+    document.querySelectorAll(".answer").forEach(button => {
+        button.disabled = true
+    })
+
+    answerClicked.classList.add("correct")
+    $nextQuestionButton.classList.remove("hide")
+    currentQuestionIndex++
+
+    fetch("/quiz/salvar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(
+            {
+                fkUsuario: sessionStorage.ID_USUARIO,
+                fkOpcao: answerClicked.dataset.id
+            }
+        )
+    })
+
+    .then(function(resposta){
+        console.log("Resposta salva!");
+    })
+    .catch(function(erro){
+        console.log("Erro ao salvar ",)
+    })
+
+}
+
+function finishGame() {
+    $questionsContainer.innerHTML = `
+        <p class="final-message">
+            Você completou o quiz!
+            <span>Veja seus resultados na página de Resultados.</span>
+        </p>
+        <button onclick="window.location.reload()" class="button">Refazer quiz</button>
+    `
+}
+
+const questions = [
+    {
+        pergunta: "Você acabou de decidir aprender violão. Por onde você começa?",
+        opcoes: [
+            { id: 1, texto: "Procuro um tutorial no YouTube e já vou tentando", perfil: "pratico" },
+            { id: 2, texto: "Pesquiso sobre teoria musical antes de tocar", perfil: "analitico" },
+            { id: 3, texto: "Peço para alguém me mostrar pessoalmente", perfil: "social" }
+        ]
+    },
+    {
+        pergunta: "Você trava em uma parte difícil de uma música. O que você faz?",
+        opcoes: [
+            { id: 4, texto: "Repito aquela parte várias vezes até sair", perfil: "pratico" },
+            { id: 5, texto: "Volto para entender a teoria por trás daquele trecho", perfil: "analitico" },
+            { id: 6, texto: "Peço ajuda para alguém te mostrar como faz", perfil: "social" }
+        ]
+    },
+    {
+        pergunta: "Como você sabe que aprendeu algo de verdade?",
+        opcoes: [
+            { id: 7, texto: "Quando consigo fazer sozinho sem pensar", perfil: "pratico" },
+            { id: 8, texto: "Quando consigo explicar para outra pessoa", perfil: "analitico" },
+            { id: 9, texto: "Quando sinto que ficou natural e fluido", perfil: "social" }
+        ]
+    },
+    {
+        pergunta: "O que mais te trava na hora de aprender algo novo?",
+        opcoes: [
+            { id: 10, texto: "Medo de errar na frente dos outros", perfil: "pratico" },
+            { id: 11, texto: "Não entender o porquê das coisas", perfil: "analitico" },
+            { id: 12, texto: "Falta de alguém para te guiar", perfil: "social" }
+        ]
+    },
+    {
+        pergunta: "Como você se sente quando domina algo que era difícil?",
+        opcoes: [
+            { id: 13, texto: "Quero logo aprender a próxima coisa", perfil: "pratico" },
+            { id: 14, texto: "Quero aprofundar ainda mais naquilo", perfil: "analitico" },
+            { id: 15, texto: "Quero ensinar para alguém", perfil: "social" }
+        ]
+    }
+]
+
+</script>
+</body>
+</html>
