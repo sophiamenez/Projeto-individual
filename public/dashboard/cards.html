@@ -33,7 +33,7 @@
             </div>
 
             <div class="btn-nav">
-                <h3>Perguntas e Respostas</h3>
+                <h3>Quiz</h3>
             </div>
 
             <div class="btn-nav-white">
@@ -42,11 +42,6 @@
                 </a>
             </div>
 
-            <div class="btn-nav-white">
-                <a href="./mural.html">
-                    <h3>Avisos</h3>
-                </a>
-            </div>
 
             <div class="btn-logout" onclick="limparSessao()">
                 <h3>Sair</h3>
@@ -113,6 +108,7 @@ function displayNextQuestion() {
         newAnswer.textContent = opcao.texto
         newAnswer.dataset.perfil = opcao.perfil
         newAnswer.dataset.id = opcao.id
+        newAnswer.dataset.perguntaId = currentQuestionIndex + 1;
         $answersContainer.appendChild(newAnswer)
         newAnswer.addEventListener("click", selectAnswer)
     })
@@ -144,7 +140,8 @@ function selectAnswer(event) {
         body: JSON.stringify(
             {
                 fkUsuario: sessionStorage.ID_USUARIO,
-                fkOpcao: answerClicked.dataset.id
+                fkOpcao: answerClicked.dataset.id,
+                fkPergunta: answerClicked.dataset.perguntaId
             }
         )
     })

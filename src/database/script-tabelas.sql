@@ -18,20 +18,22 @@ create table pergunta (
 -- Tabela para opções de perguntas, com o texto correspondente ao perfil de estudo do usuário e uma fk para ligar com a pergunta
 create table opcao (
     id int primary key auto_increment,
-    perfil varchar(30),
-    fk_pergunta INT,
-    constraint fkPergunta
-		foreign key (fk_pergunta) references pergunta(id)
+    texto varchar(200),
+    perfil varchar(30)
 );
 
 -- Junção da tabela opção com o usuário para as respostas correspondentes
 create table resposta_usuario (
-    id int primary key auto_increment,
     fk_usuario int,
     fk_opcao int,
+    fk_pergunta int,
     data_resposta datetime default now(),
     constraint fkUsuarioResposta
 		foreign key (fk_usuario) references usuario(id),
-        constraint fkOpcaoResposta
-			foreign key (fk_opcao) references opcao(id)
+        
+	constraint fkOpcaoResposta
+		foreign key (fk_opcao) references opcao(id),
+        
+	constraint fkPerguntaResposta
+		foreign key(fk_pergunta) references pergunta(id)
 );

@@ -4,6 +4,7 @@ function guardarResposta (req, res){
 
     var fkUsuario = req.body.fkUsuario;
     var fkOpcao = req.body.fkOpcao;
+    var fkPergunta = req.body.fkPergunta;
 
     if (fkUsuario == undefined) {
         res.status(400).send("Usuário não encontrado.");
@@ -11,9 +12,12 @@ function guardarResposta (req, res){
     } else if (fkOpcao == undefined) {
         res.status(400).send("Opção não encontrada.");
 
-    } else {
+    } else if(fkPergunta == undefined) {
+        res.status(400).send("Pergunta não encontrada.");
+    
+    }else {
 
-        quizModel.guardarResposta(fkUsuario, fkOpcao)
+        quizModel.guardarResposta(fkUsuario, fkOpcao, fkPergunta)
             .then(
 
                 function(resultado){

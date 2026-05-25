@@ -1,9 +1,9 @@
 var database = require("../database/config")
 
-function guardarResposta (fk_usuario, fk_opcao){
+function guardarResposta (fk_usuario, fk_opcao, fk_pergunta){
 
-    var instrucaoSql = `INSERT INTO resposta_usuario (fk_usuario, fk_opcao)
-    VALUES(${fk_usuario}, ${fk_opcao})`;
+    var instrucaoSql = `INSERT INTO resposta_usuario (fk_usuario, fk_opcao, fk_pergunta)
+    VALUES(${fk_usuario}, ${fk_opcao}, ${fk_pergunta})`;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
