@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="./css/estilo.css" />
+
+    <title>Jogo</title>
+</head>
+
+<body>
+    
+    <div class="jogoCont">
+
+        <h2>Descubra qual o código pra desbloquear a carta secreta!</h2>
+
+        <p>Você precisa colocar qual a nota músical corresponde a pergunta para receber um código e descobrir qual a sua mensagem secreta.</p>
+        
+        <div class="jogoPergunta">
+            <p>Qual a segunda nota da escala de Dó Maior:</p> <input id="ipt_re"><br>
+            <p>Qual a quarta nota da escala de Dó Maior:</p> <input id="ipt_fa"><br>
+            <p>Qual a terceira nota da escala de Dó Maior:</p> <input id="ipt_mi"><br>
+            <p>Digite alguma vogal qualquer:</p> <input id="ipt_vogal"><br>
+        </div>
+
+        <button class="btnJogar" onclick="jogar()">Validar</button>
+
+        <div id="codigo"></div>
+
+        <div class="jogoCodigo">
+            <input id="ipt_codigo">
+            <button id="button" type="submit" class="btnJogar" disabled onclick="destravar()">Descubra agora</button>
+        </div>
+
+    </div>
+
+    
+    <main>
+
+        <div class="grid"></div>
+
+    </main>
+
+    <button class="btnJogar" onclick="window.location.href='index.html'">Voltar</button>
+
+</body>
+
+<script>
+
+    const createElement = (tag, className) => {
+        const element = document.createElement(tag);
+        element.className = className;
+        return element;
+        }
+
+        const createCard = () => {
+
+        const card = createElement('div', 'carde');
+        const front = createElement('div', 'face front');
+        const back = createElement('div', 'face back');
+
+        front.innerHTML = `Mensagem revelada`;
+
+        card.appendChild(front);
+        card.appendChild(back);
+
+        return card;
+
+        }
+
+        const grid = document.querySelector('.grid');
+        const carta = createCard();
+        grid.appendChild(carta);
+
+        let desbloqueio
+
+    function jogar(){
+
+        let re = ipt_re.value.toUpperCase();
+        let fa = ipt_fa.value.toUpperCase();
+        let mi = ipt_mi.value.toUpperCase();
+        let vogal = ipt_vogal.value.toUpperCase();
+
+        if(re == '' && fa == '' && mi == '' && vogal == ''){
+            alert('Preencha todos os espaços para iniciar o programa');
+
+        } else if(re != 'RE' && re != 'RÉ' && re != 'D'){
+            alert('Boa jogada, mas está não é a segunda nota, tente mais uma vezes =)');
+
+        } else if(fa != 'FA' && fa != 'FÁ' && fa != 'F'){
+            alert('Boa jogada, mas está não é a quarta nota, tente mais uma vezes =)');
+
+        } else if(mi != 'MI' && mi != 'E'){
+            alert('Boa jogada, mas está não é a terceira nota, tente mais uma vezes =)');
+
+        } else if (vogal != 'A' && vogal != 'E' && vogal != 'I' && vogal != 'O' && vogal != 'U'){
+            alert('Boa jogada, mas está input é só para vogais (A, E, I, O ou U)');
+
+        } else {
+
+            let vt = ['A', 'E', 'I', 'O', 'U'];
+            let vtASCII = [65, 69, 73, 79, 85];
+
+            let achou = 0;
+
+            for(let i = 0; i < vt.length; i++){
+                if(vogal == vt[i]){
+                    achou = vtASCII[i];
+
+                }
+            }
+
+            desbloqueio = `${13 + achou}${15 + achou}${14 + achou}`
+
+            codigo.innerHTML = `Código: ${13 + achou}${15 + achou}${14 + achou}`
+
+        }
+    }
+
+    const destravar = () => {
+        const inputCodigo = ipt_codigo.value;
+
+        if(inputCodigo == desbloqueio){
+            carta.classList.add('reveal-card')
+        }
+
+    }
+
+    const validateCodigo = ({target}) => {
+        if(target.value.length == 6){
+            button.removeAttribute('disabled');
+
+        } else {
+            button.setAttribute('disabled', '');
+        }
+    }
+
+    ipt_codigo.addEventListener('input', validateCodigo);
+
+</script>
+
+</html>

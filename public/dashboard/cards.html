@@ -170,43 +170,60 @@ function finishGame() {
 
 const questions = [
     {
-        pergunta: "Você acabou de decidir aprender violão. Por onde você começa?",
+        // Pergunta 1
+
+        pergunta: "Com qual dessas caracteristicas de estudo você mais se identifica?",
         opcoes: [
-            { id: 1, texto: "Procuro um tutorial no YouTube e já vou tentando", perfil: "pratico" },
-            { id: 2, texto: "Pesquiso sobre teoria musical antes de tocar", perfil: "analitico" },
-            { id: 3, texto: "Peço para alguém me mostrar pessoalmente", perfil: "social" }
+            { id: 1, texto: "Preciso estar em contato com o conteúdo de forma prática", perfil: "pratico" },
+            { id: 2, texto: "Prefiro ler e me expressar por meio da escrita", perfil: "leitura/escrita" },
+            { id: 3, texto: "Entendo melhor ouvindo as informações", perfil: "auditivo" },
+            { id: 4, texto: "Entendo e me lembro melhor de informações visualizando o conteúdo", perfil: "visual" }
         ]
     },
     {
-        pergunta: "Você trava em uma parte difícil de uma música. O que você faz?",
+        // Pergunta 2
+
+        pergunta: "Qual desses espaços você prefere estudar?",
         opcoes: [
-            { id: 4, texto: "Repito aquela parte várias vezes até sair", perfil: "pratico" },
-            { id: 5, texto: "Volto para entender a teoria por trás daquele trecho", perfil: "analitico" },
-            { id: 6, texto: "Peço ajuda para alguém te mostrar como faz", perfil: "social" }
+            { id: 5, texto: "Um lugar onde eu posso me movimentar e fazer pausar frequentes para organizar as ideias", perfil: "pratico" },
+            { id: 6, texto: "Apenas um notebook, PDFs e um bloco de notas", perfil: "leitura/escrita" },
+            { id: 7, texto: "Um espaço onde eu posso falar em voz alta para entender melhor o conteúdo", perfil: "auditivo" },
+            { id: 8, texto: "Preciso de estimulos visuais, um ambiente limpo e organizado com post-its e papeis", perfil: "visual" }
         ]
     },
     {
-        pergunta: "Como você sabe que aprendeu algo de verdade?",
+
+        // Pergunta 3
+
+        pergunta: "Como você age quando precisa estudar um assunto muito difícil?",
         opcoes: [
-            { id: 7, texto: "Quando consigo fazer sozinho sem pensar", perfil: "pratico" },
-            { id: 8, texto: "Quando consigo explicar para outra pessoa", perfil: "analitico" },
-            { id: 9, texto: "Quando sinto que ficou natural e fluido", perfil: "social" }
+            { id: 9, texto: "Corro para fazer vários exercícios até entender o assunto'", perfil: "pratico" },
+            { id: 10, texto: "Leio artigos, livros, jornais e escrevo sobre o assunto", perfil: "leitura/escrita" },
+            { id: 11, texto: "Pesquiso vídeos ou podcast sobre o assunto", perfil: "auditivo" },
+            { id: 12, texto: "Procuro gráficos ou imagens sobre o tema", perfil: "visual" }
         ]
     },
     {
-        pergunta: "O que mais te trava na hora de aprender algo novo?",
+        // Pergunta 4
+
+        pergunta: "Você vai montrar um móvel novo, por onde você começa?",
         opcoes: [
-            { id: 10, texto: "Medo de errar na frente dos outros", perfil: "pratico" },
-            { id: 11, texto: "Não entender o porquê das coisas", perfil: "analitico" },
-            { id: 12, texto: "Falta de alguém para te guiar", perfil: "social" }
-        ]
+            { id: 13, texto: "Vou direto juntando as peças e procurando entender o móvel conforme vou montando", perfil: "pratico" },
+            { id: 14, texto: "Primeiro, leio o manual de instruções", perfil: "leitura/escrita" },
+            { id: 15, texto: "Coloco um vídeo ou peço para alguém me explicar", perfil: "auditivo" },
+            { id: 16, texto: "Me baseio na imagem do móvel pronto na caixa para realizar minha montagem", perfil: "visual" }
+        ] 
     },
     {
-        pergunta: "Como você se sente quando domina algo que era difícil?",
+
+        // Pergunta 5
+
+        pergunta: "Ao aprender algo novo, qual dessas frases te define melhor?",
         opcoes: [
-            { id: 13, texto: "Quero logo aprender a próxima coisa", perfil: "pratico" },
-            { id: 14, texto: "Quero aprofundar ainda mais naquilo", perfil: "analitico" },
-            { id: 15, texto: "Quero ensinar para alguém", perfil: "social" }
+            { id: 17, texto: "Tenho que treinar muito sobre este assunto", perfil: "pratico" },
+            { id: 18, texto: "Vou anotar com minhas próprias palavras para não esquecer", perfil: "leitura/escrita" },
+            { id: 19, texto: "Vou procurar um vídeo falando sobre o assunto", perfil: "auditivo" },
+            { id: 20, texto: "Preciso de um desenho ou uma demonstração sobre o conteúdo", perfil: "visual" }
         ]
     }
 ]

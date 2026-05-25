@@ -1,32 +1,37 @@
-CREATE DATABASE educacao;
-USE educacao;
+create database educacao;
+use educacao;
 
-CREATE TABLE usuario (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(50),
-    email VARCHAR(50),
-    senha VARCHAR(50)
+-- Cadastro do usuário
+create table usuario (
+    id int primary key auto_increment,
+    nome varchar(65),
+    email varchar(80),
+    senha varchar(30)
 );
 
-CREATE TABLE pergunta (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    enunciado VARCHAR(300)
+-- Tabela para cada pergunta
+create table pergunta (
+    id int primary key auto_increment,
+    enunciado varchar(200)
 );
 
-CREATE TABLE opcao (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    texto VARCHAR(200),
-    pontuacao INT,
-    perfil VARCHAR(50),
+-- Tabela para opções de perguntas, com o texto correspondente ao perfil de estudo do usuário e uma fk para ligar com a pergunta
+create table opcao (
+    id int primary key auto_increment,
+    perfil varchar(30),
     fk_pergunta INT,
-    FOREIGN KEY (fk_pergunta) REFERENCES pergunta(id)
+    constraint fkPergunta
+		foreign key (fk_pergunta) references pergunta(id)
 );
 
-CREATE TABLE resposta_usuario (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    fk_usuario INT,
-    fk_opcao INT,
-    data_resposta DATETIME DEFAULT NOW(),
-    FOREIGN KEY (fk_usuario) REFERENCES usuario(id),
-    FOREIGN KEY (fk_opcao) REFERENCES opcao(id)
+-- Junção da tabela opção com o usuário para as respostas correspondentes
+create table resposta_usuario (
+    id int primary key auto_increment,
+    fk_usuario int,
+    fk_opcao int,
+    data_resposta datetime default now(),
+    constraint fkUsuarioResposta
+		foreign key (fk_usuario) references usuario(id),
+        constraint fkOpcaoResposta
+			foreign key (fk_opcao) references opcao(id)
 );
