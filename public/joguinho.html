@@ -42,38 +42,38 @@
 
     </main>
 
-    <button class="btnJogar" onclick="window.location.href='index.html'">Voltar</button>
+    <button class="btnJogar" style="margin-left: 10%; margin-bottom: 10%;" onclick="window.location.href='index.html'">Voltar</button>
 
 </body>
 
 <script>
 
     const createElement = (tag, className) => {
-        const element = document.createElement(tag);
-        element.className = className;
-        return element;
-        }
+    const element = document.createElement(tag);
+    element.className = className;
+    return element;
+    }
 
-        const createCard = () => {
+    const createCard = () => {
 
-        const card = createElement('div', 'carde');
-        const front = createElement('div', 'face front');
-        const back = createElement('div', 'face back');
+    const card = createElement('div', 'carde');
+    const front = createElement('div', 'face front');
+    const back = createElement('div', 'face back');
 
-        front.innerHTML = `Mensagem revelada`;
+    front.innerHTML = `Mensagem revelada`;
 
-        card.appendChild(front);
-        card.appendChild(back);
+    card.appendChild(front);
+    card.appendChild(back);
 
-        return card;
+    return card;
 
-        }
+    }
 
-        const grid = document.querySelector('.grid');
-        const carta = createCard();
-        grid.appendChild(carta);
+    const grid = document.querySelector('.grid');
+    const carta = createCard();
+    grid.appendChild(carta);
 
-        let desbloqueio
+    let desbloqueio
 
     function jogar(){
 
@@ -97,7 +97,7 @@
         } else if (vogal != 'A' && vogal != 'E' && vogal != 'I' && vogal != 'O' && vogal != 'U'){
             alert('Boa jogada, mas está input é só para vogais (A, E, I, O ou U)');
 
-        } else {
+        } else {                                                                     
 
             let vt = ['A', 'E', 'I', 'O', 'U'];
             let vtASCII = [65, 69, 73, 79, 85];

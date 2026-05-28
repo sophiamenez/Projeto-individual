@@ -98,20 +98,53 @@
     var senhaVar = senha_input.value;
     var confirmacaoSenhaVar = confirmacao_senha_input.value;
 
-    // Verificando se há algum campo em branco
-    if (
-      nomeVar == "" ||
-      emailVar == "" ||
-      senhaVar == "" ||
-      confirmacaoSenhaVar == "" 
-    ) {
-      // O cardErro.style.display = "block" é um card que aparece na tela
+    if (nomeVar == "" && emailVar == "" && senhaVar == "" && confirmacaoSenhaVar == "" ) {
+
       cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
+      mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
 
       finalizarAguardar();
       return false;
+
+    } else if (nomeVar == "") {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "(Por favor, preencha o seu nome.)";
+
+      finalizarAguardar();
+      return false;
+
+    } else if (emailVar == "") {
+
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "(Por favor, preencha o seu e-mail.)";
+
+      finalizarAguardar();
+      return false;
+
+    } else if (senhaVar == ""){
+
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "(Por favor, crie uma senha.)";
+
+      finalizarAguardar();
+      return false;
+
+    } else if(confirmacaoSenhaVar == "" ){
+
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "(Por favor, confirme a sua senha.)";
+
+      finalizarAguardar();
+      return false;
+
+    } else if (senhaVar != confirmacaoSenhaVar){
+
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "(Coloque a mesma senha.)";
+
+      finalizarAguardar();
+      return false;
+
     } else {
       setInterval(sumirMensagem, 5000);
     }

@@ -77,6 +77,7 @@
 
 <script>
 
+    let cont = 3;
 
     function entrar() {
         aguardar();
@@ -84,13 +85,27 @@
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
 
-        if (emailVar == "" || senhaVar == "") {
+        if (emailVar == "" && senhaVar == "") {
+
             cardErro.style.display = "block"
             mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
             finalizarAguardar();
             return false;
-        }
-        else {
+
+        } else if(emailVar == ""){
+
+            cardErro.style.display = "block"
+            mensagem_erro.innerHTML = "(Por favor, preencha o e-mail)";
+            finalizarAguardar();
+            return false;
+
+        } else if(senhaVar == ""){
+
+            cardErro.style.display = "block"
+            mensagem_erro.innerHTML = "(Por favor, preencha a senha)";
+            finalizarAguardar();
+            return false;
+        }else {
             setInterval(sumirMensagem, 5000)
         }
 
@@ -128,12 +143,43 @@
 
             } else {
 
-                console.log("Houve um erro ao tentar realizar o login!");
+                while(cont > 0){
 
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    finalizarAguardar(texto);
-                });
+                    if(cont >= 3){
+
+                        cardErro.style.display = "block"
+                        mensagem_erro.innerHTML = `E-mail ou senha errado, você tem apenas ${cont} tentativas.`;
+                        finalizarAguardar();
+                        return false;
+
+                    } else if(cont >= 2){
+
+                        cardErro.style.display = "block"
+                        mensagem_erro.innerHTML = `E-mail ou senha errado, você tem apenas ${cont} tentativas.`;
+                        finalizarAguardar();
+                        return false;
+
+                    } else if (cont >= 1) {
+
+                        cardErro.style.display = "block"
+                        mensagem_erro.innerHTML = `E-mail ou senha errado, você tem apenas ${cont} tentativas.`;
+                        finalizarAguardar();
+                        return false;
+
+                    } else if(cont == 0){ 
+
+                        console.log("Houve um erro ao tentar realizar o login!");
+
+                        resposta.text().then(texto => {
+                            console.error(texto);
+                            finalizarAguardar(texto);
+                        });
+
+                    }
+
+                    cont--
+                
+                }
             }
 
         }).catch(function (erro) {
