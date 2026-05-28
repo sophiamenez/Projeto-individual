@@ -77,14 +77,15 @@
 
 <script>
 
-    let cont = 3;
-
+    // Função principal do login
     function entrar() {
+        
         aguardar();
 
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
 
+        // Validações para as inputs
         if (emailVar == "" && senhaVar == "") {
 
             cardErro.style.display = "block"
@@ -105,25 +106,54 @@
             mensagem_erro.innerHTML = "(Por favor, preencha a senha)";
             finalizarAguardar();
             return false;
-        }else {
+
+        } else {
+
+            // setInterval chama a função 'sumirMensagem' e faz desaparecer em 5 segundos
             setInterval(sumirMensagem, 5000)
         }
 
+        // Mensagem que aparece no console.log
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
+        // Função fetch para buscar e enviar dados
         fetch("/usuarios/autenticar", {
+
+            // Enviando dados
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
+
+            // Recebendo os dados das inputs
             body: JSON.stringify({
                 emailServer: emailVar,
                 senhaServer: senhaVar
             })
+
+            // Fim da função fetch e início do método .then e .catch.
+
+            // Os método .then e .catch são usados para manipular Promises.
+
+            /*
+            Uma Promise é um objeto que representa um valor que pode estar disponível agora, no futuro ou nunca. 
+            Promises (promessas) são frequentemente usadas para operações assíncronas, como fazer requisições de rede, 
+            ler arquivos ou executar tarefas que levam algum tempo para serem concluídas.
+
+            Método .then(): É usado para manipular o resultado (ou erro) de uma Promise. Ele permite que você especifique o que fazer 
+            quando a Promise é resolvida ou quando é rejeitada.
+
+            */
+
+            // umaPromise.then(funcaoSucesso).catch(funcaoErro);
+
         }).then(function (resposta) {
+
+            // Mensagem que aparece no console
             console.log("ESTOU NO THEN DO entrar()!")
 
+            // If para verificar se os dados estão certos(ok)
             if (resposta.ok) {
                 console.log(resposta);
 
@@ -133,7 +163,6 @@
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
 
                     setTimeout(function () {
                         window.location = "./dashboard/cards.html";
@@ -141,47 +170,18 @@
 
                 });
 
+            // Se não, mensagem de erro no console
             } else {
 
-                while(cont > 0){
+                console.log("Houve um erro ao tentar realizar o login!");
 
-                    if(cont >= 3){
-
-                        cardErro.style.display = "block"
-                        mensagem_erro.innerHTML = `E-mail ou senha errado, você tem apenas ${cont} tentativas.`;
-                        finalizarAguardar();
-                        return false;
-
-                    } else if(cont >= 2){
-
-                        cardErro.style.display = "block"
-                        mensagem_erro.innerHTML = `E-mail ou senha errado, você tem apenas ${cont} tentativas.`;
-                        finalizarAguardar();
-                        return false;
-
-                    } else if (cont >= 1) {
-
-                        cardErro.style.display = "block"
-                        mensagem_erro.innerHTML = `E-mail ou senha errado, você tem apenas ${cont} tentativas.`;
-                        finalizarAguardar();
-                        return false;
-
-                    } else if(cont == 0){ 
-
-                        console.log("Houve um erro ao tentar realizar o login!");
-
-                        resposta.text().then(texto => {
-                            console.error(texto);
-                            finalizarAguardar(texto);
-                        });
-
-                    }
-
-                    cont--
-                
-                }
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto);
+                });
             }
 
+        // Função .catch para erro
         }).catch(function (erro) {
             console.log(erro);
         })

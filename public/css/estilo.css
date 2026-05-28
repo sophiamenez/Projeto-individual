@@ -415,6 +415,20 @@ body {
   height: 100%;
 }
 
+.botaoLogin{
+    background-color: #32b9cd;
+  color: #07131F;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.3s ease;
+  margin-top: 0.5rem;
+}
+
 .card {
   width: 50%;
   background-color: #DCEEFF;
