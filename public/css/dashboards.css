@@ -20,6 +20,7 @@ body {
   border: 2px solid #32b9cd;
   border-radius: 6px;
   padding: 16px;
+  box-shadow: 0 0 2px 2px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,10 +51,12 @@ body {
   gap: 16px;
 }
 
+/*Para esconder alguns elementos*/
 .hide{
   display: none;
 }
 
+/*Desabilita o cursos*/
 .answers:disabled{
   cursor: not-allowed;
 }
@@ -75,8 +78,9 @@ body {
   cursor: pointer;
 }
 
+/*Efeito de houver apenas para butões desabilitados */
 .button:not(:disabled):hover {
-    filter: brightness(0.8);
+  filter: brightness(0.8);
 }
 
 .final-message {

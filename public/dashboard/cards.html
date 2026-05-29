@@ -2,7 +2,7 @@
 <html lang="pt-br">
 
 <head>
-    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <!--<link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">-->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +21,8 @@
 </head>
 
 <body onload="validarSessao()">
+
+    <!-- Início menu lateral -->
 
     <div class="janela">
 
@@ -49,182 +51,339 @@
 
         </div>
 
-    <div class="dash">
+        <!-- Fim menu lateral -->
 
-        <div class="container-quiz">
+        <div class="dash">
 
-            <div class= "questions-container hide">
+            <div class="container-quiz">
 
-                <span class="question">Pergunta aqui?</span>
-                <div class="answers-container">
+                <div class="questions-container hide">
+
+                    <span class="question">Pergunta aqui?</span>
+                    <div class="answers-container">
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <!--Botões quiz-->
+                    <button class="start-quiz button">Começar Quiz!</button>
+                    <button class="next-question button hide">Próxima pergunta</button>
 
                 </div>
 
             </div>
 
-            <div>
-
-                <button class="start-quiz button">Começar Quiz!</button>
-                <button class="next-question button hide">Próxima pergunta</button>
-
-            </div>
-
         </div>
 
-    </div>
+        <script>
 
-<script>
+            // Nome do usuário
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO
 
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO
+            // Variáveis que recebe uma class
+            const $startGameButton = document.querySelector(".start-quiz");
+            const $questionsContainer = document.querySelector(".questions-container");
+            const $answersContainer = document.querySelector(".answers-container");
+            const $questionText = document.querySelector(".question")
+            const $nextQuestionButton = document.querySelector(".next-question");
 
-const $startGameButton = document.querySelector(".start-quiz")
-const $nextQuestionButton = document.querySelector(".next-question")
-const $questionsContainer = document.querySelector(".questions-container")
-const $questionText = document.querySelector(".question")
-const $answersContainer = document.querySelector(".answers-container")
 
-let currentQuestionIndex = 0
+            // Variável auxiar para acessar as questões;
+            let currentQuestionIndex = 0;
 
-$startGameButton.addEventListener("click", startGame)
-$nextQuestionButton.addEventListener("click", displayNextQuestion)
+            // Capturando um evento de click
+            $startGameButton.addEventListener("click", startGame);
+            $nextQuestionButton.addEventListener("click", displayNextQuestion)
 
-function startGame() {
-    $startGameButton.classList.add("hide")
-    $questionsContainer.classList.remove("hide")
-    displayNextQuestion()
-}
+            // Função do botão de iniciar o quiz
+            function startGame() {
 
-function displayNextQuestion() {
-    resetState()
+                // Adiciona e remove o hide
+                $startGameButton.classList.add("hide")
+                $questionsContainer.classList.remove("hide");
 
-    if (questions.length === currentQuestionIndex) {
-        return finishGame()
-    }
-
-    $questionText.textContent = questions[currentQuestionIndex].pergunta
-    questions[currentQuestionIndex].opcoes.forEach(opcao => {
-        const newAnswer = document.createElement("button")
-        newAnswer.classList.add("button", "answer")
-        newAnswer.textContent = opcao.texto
-        newAnswer.dataset.perfil = opcao.perfil
-        newAnswer.dataset.id = opcao.id
-        newAnswer.dataset.perguntaId = currentQuestionIndex + 1;
-        $answersContainer.appendChild(newAnswer)
-        newAnswer.addEventListener("click", selectAnswer)
-    })
-}
-
-function resetState() {
-    while ($answersContainer.firstChild) {
-        $answersContainer.removeChild($answersContainer.firstChild)
-    }
-    $nextQuestionButton.classList.add("hide")
-}
-
-function selectAnswer(event) {
-    const answerClicked = event.target
-
-    document.querySelectorAll(".answer").forEach(button => {
-        button.disabled = true
-    })
-
-    answerClicked.classList.add("correct")
-    $nextQuestionButton.classList.remove("hide")
-    currentQuestionIndex++
-
-    fetch("/quiz/salvar", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(
-            {
-                fkUsuario: sessionStorage.ID_USUARIO,
-                fkOpcao: answerClicked.dataset.id,
-                fkPergunta: answerClicked.dataset.perguntaId
+                // Chamando fução para a próxima
+                displayNextQuestion()
             }
-        )
-    })
 
-    .then(function(resposta){
-        console.log("Resposta salva!");
-    })
-    .catch(function(erro){
-        console.log("Erro ao salvar ",)
-    })
+            // Função para mostrar a próxima pergunta
+            function displayNextQuestion() {
 
-}
+                // Chamando a função resetState
+                resetState()
 
-function finishGame() {
-    $questionsContainer.innerHTML = `
-        <p class="final-message">
-            Você completou o quiz!
-            <span>Veja seus resultados na página de Resultados.</span>
-        </p>
-        <button onclick="window.location.reload()" class="button">Refazer quiz</button>
-    `
-}
+                // Verifica se o tamanho do vetor esta igual a quantidade de currentQuestionIndex para finalizar o quiz.
+                if (questions.length === currentQuestionIndex) {
+                    return finishGame()
+                }
 
-const questions = [
-    {
-        // Pergunta 1
+                // Exibe o texto da pergunta
+                $questionText.textContent = questions[currentQuestionIndex].pergunta
 
-        pergunta: "Com qual dessas caracteristicas de estudo você mais se identifica?",
-        opcoes: [
-            { id: 1, texto: "Preciso estar em contato com o conteúdo de forma prática", perfil: "pratico" },
-            { id: 2, texto: "Prefiro ler e me expressar por meio da escrita", perfil: "leitura/escrita" },
-            { id: 3, texto: "Entendo melhor ouvindo as informações", perfil: "auditivo" },
-            { id: 4, texto: "Entendo e me lembro melhor de informações visualizando o conteúdo", perfil: "visual" }
-        ]
-    },
-    {
-        // Pergunta 2
+                // Criação dos botões
+                questions[currentQuestionIndex].opcoes.forEach(opcao => {
+                    const newAnswer = document.createElement("button")
 
-        pergunta: "Qual desses espaços você prefere estudar?",
-        opcoes: [
-            { id: 5, texto: "Um lugar onde eu posso me movimentar e fazer pausar frequentes para organizar as ideias", perfil: "pratico" },
-            { id: 6, texto: "Apenas um notebook, PDFs e um bloco de notas", perfil: "leitura/escrita" },
-            { id: 7, texto: "Um espaço onde eu posso falar em voz alta para entender melhor o conteúdo", perfil: "auditivo" },
-            { id: 8, texto: "Preciso de estimulos visuais, um ambiente limpo e organizado com post-its e papeis", perfil: "visual" }
-        ]
-    },
-    {
+                    // Traz o estilo css
+                    newAnswer.classList.add("button", "answer")
 
-        // Pergunta 3
+                    //Mostra o texto da opção
+                    newAnswer.textContent = opcao.texto
 
-        pergunta: "Como você age quando precisa estudar um assunto muito difícil?",
-        opcoes: [
-            { id: 9, texto: "Corro para fazer vários exercícios até entender o assunto'", perfil: "pratico" },
-            { id: 10, texto: "Leio artigos, livros, jornais e escrevo sobre o assunto", perfil: "leitura/escrita" },
-            { id: 11, texto: "Pesquiso vídeos ou podcast sobre o assunto", perfil: "auditivo" },
-            { id: 12, texto: "Procuro gráficos ou imagens sobre o tema", perfil: "visual" }
-        ]
-    },
-    {
-        // Pergunta 4
+                    // Armazena o perfil da opção
+                    newAnswer.dataset.perfil = opcao.perfil
 
-        pergunta: "Você vai montrar um móvel novo, por onde você começa?",
-        opcoes: [
-            { id: 13, texto: "Vou direto juntando as peças e procurando entender o móvel conforme vou montando", perfil: "pratico" },
-            { id: 14, texto: "Primeiro, leio o manual de instruções", perfil: "leitura/escrita" },
-            { id: 15, texto: "Coloco um vídeo ou peço para alguém me explicar", perfil: "auditivo" },
-            { id: 16, texto: "Me baseio na imagem do móvel pronto na caixa para realizar minha montagem", perfil: "visual" }
-        ] 
-    },
-    {
+                    // Armazena o id da opção
+                    newAnswer.dataset.id = opcao.id
 
-        // Pergunta 5
+                    // Armazena o número da pergunta
+                    newAnswer.dataset.perguntaId = currentQuestionIndex + 1;
 
-        pergunta: "Ao aprender algo novo, qual dessas frases te define melhor?",
-        opcoes: [
-            { id: 17, texto: "Tenho que treinar muito sobre este assunto", perfil: "pratico" },
-            { id: 18, texto: "Vou anotar com minhas próprias palavras para não esquecer", perfil: "leitura/escrita" },
-            { id: 19, texto: "Vou procurar um vídeo falando sobre o assunto", perfil: "auditivo" },
-            { id: 20, texto: "Preciso de um desenho ou uma demonstração sobre o conteúdo", perfil: "visual" }
-        ]
-    }
-]
+                    // Torna o botão visível
+                    $answersContainer.appendChild(newAnswer)
 
-</script>
+                    // Registra o momento do click
+                    newAnswer.addEventListener("click", selectAnswer)
+                })
+            }
+
+            // Função para ir para a próxima pergunta
+            function resetState() {
+
+                // While para retirar as perguntas anteriores
+                while ($answersContainer.firstChild) {
+                    $answersContainer.removeChild($answersContainer.firstChild)
+                }
+
+                // Habilita o botão para hide novamente para desaparecer na tela e só paracere quando seleciona a resposta
+                $nextQuestionButton.classList.add("hide")
+            }
+
+            // Função para saber qual butão o usuario acessou, event indica qual butão o usuário clicou
+            function selectAnswer(event) {
+
+                // Descobre qual botão o usuário clicou
+                const answerClicked = event.target
+
+                // Desabilita os botões de resposta
+                document.querySelectorAll(".answer").forEach(button => {
+                    button.disabled = true
+                })
+
+                // Destaca o botão clicado
+                answerClicked.classList.add("correct");
+
+                // Remove a class hide para mostrar o botão de ir a próxima pergunta
+                $nextQuestionButton.classList.remove("hide");
+
+                // Incrementa a resposta para a próxima pergunta
+                currentQuestionIndex++;
+
+                // Salva as respostas
+                fetch("/quiz/salvar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(
+                        {
+                            fkUsuario: sessionStorage.ID_USUARIO,
+                            fkOpcao: answerClicked.dataset.id,
+                            fkPergunta: answerClicked.dataset.perguntaId
+                        }
+                    )
+                })
+
+                    // Tratando os dados com o .then e .catch
+                    .then(function (resposta) {
+                        console.log("Resposta salva!");
+                    })
+                    .catch(function (erro) {
+                        console.log("Erro ao salvar ",)
+                    })
+
+            }
+
+            function finishGame() {
+
+                // Fazer a msg aparecer dentro da div
+                $questionsContainer.innerHTML = `
+            <p class="final-message">
+                Você completou o quiz!
+                <span>Veja seus resultados na página de Resultados.</span>
+            </p>
+            <button onclick="window.location.reload()" class="button">Faça de novo!</button>
+        `
+            }
+
+            /*cont questions é um vetor que armazenará as perguntas e os perfis, como se fosse um banco de perguntas.
+            Além de ser um vetor onde cada posição é um objeto que é uma pergunta com os possíveis perfis.*/
+            const questions = [
+                {
+                    // Pergunta 1
+
+                    pergunta: "Com qual dessas caracteristicas de estudo você mais se identifica?",
+                    opcoes: [
+
+                        {
+                            id: 1,
+                            texto: "Preciso estar em contato com o conteúdo de forma prática",
+                            perfil: "pratico"
+                        },
+
+                        {
+                            id: 2,
+                            texto: "Prefiro ler e me expressar por meio da escrita",
+                            perfil: "leitura/escrita"
+                        },
+
+                        {
+                            id: 3,
+                            texto: "Entendo melhor ouvindo as informações",
+                            perfil: "auditivo"
+                        },
+
+                        {
+                            id: 4,
+                            texto: "Entendo e me lembro melhor de informações visualizando o conteúdo",
+                            perfil: "visual"
+                        }
+                    ]
+                },
+                {
+                    // Pergunta 2
+
+                    pergunta: "Qual desses espaços você prefere estudar?",
+                    opcoes: [
+
+                        {
+                            id: 5,
+                            texto: "Um lugar onde eu posso me movimentar e fazer pausar frequentes para organizar as ideias",
+                            perfil: "pratico"
+                        },
+
+                        {
+                            id: 6,
+                            texto: "Apenas um notebook, PDFs e um bloco de notas",
+                            perfil: "leitura/escrita"
+                        },
+
+                        {
+                            id: 7,
+                            texto: "Um espaço onde eu posso falar em voz alta para entender melhor o conteúdo",
+                            perfil: "auditivo"
+                        },
+
+                        {
+                            id: 8,
+                            texto: "Preciso de estimulos visuais, um ambiente limpo e organizado com post-its e papeis",
+                            perfil: "visual"
+                        }
+                    ]
+                },
+                {
+
+                    // Pergunta 3
+
+                    pergunta: "Como você age quando precisa estudar um assunto muito difícil?",
+                    opcoes: [
+
+                        {
+                            id: 9,
+                            texto: "Corro para fazer vários exercícios até entender o assunto'",
+                            perfil: "pratico"
+                        },
+
+                        {
+                            id: 10,
+                            texto: "Leio artigos, livros, jornais e escrevo sobre o assunto",
+                            perfil: "leitura/escrita"
+                        },
+
+                        {
+                            id: 11,
+                            texto: "Pesquiso vídeos ou podcast sobre o assunto",
+                            perfil: "auditivo"
+                        },
+
+                        {
+                            id: 12,
+                            texto: "Procuro gráficos ou imagens sobre o tema",
+                            perfil: "visual"
+                        }
+                    ]
+                },
+                {
+                    // Pergunta 4
+
+                    pergunta: "Você vai montrar um móvel novo, por onde você começa?",
+                    opcoes: [
+
+                        {
+                            id: 13,
+                            texto: "Vou direto juntando as peças e procurando entender o móvel conforme vou montando",
+                            perfil: "pratico"
+                        },
+
+                        {
+                            id: 14,
+                            texto: "Primeiro, leio o manual de instruções",
+                            perfil: "leitura/escrita"
+                        },
+
+                        {
+                            id: 15,
+                            texto: "Coloco um vídeo ou peço para alguém me explicar",
+                            perfil: "auditivo"
+                        },
+
+                        {
+                            id: 16,
+                            texto: "Me baseio na imagem do móvel pronto na caixa para realizar minha montagem",
+                            perfil: "visual"
+                        }
+
+                    ]
+                },
+                {
+
+                    // Pergunta 5
+
+                    pergunta: "Ao aprender algo novo, qual dessas frases te define melhor?",
+                    opcoes: [
+
+                        {
+                            id: 17,
+                            texto: "Tenho que treinar muito sobre este assunto",
+                            perfil: "pratico"
+                        },
+
+                        {
+                            id: 18,
+                            texto: "Vou anotar com minhas próprias palavras para não esquecer",
+                            perfil: "leitura/escrita"
+                        },
+
+                        {
+                            id: 19,
+                            texto: "Vou procurar um vídeo falando sobre o assunto",
+                            perfil: "auditivo"
+                        },
+
+                        {
+                            id: 20,
+                            texto: "Preciso de um desenho ou uma demonstração sobre o conteúdo",
+                            perfil: "visual"
+                        }
+
+                    ]
+                }
+            ]
+
+        </script>
 </body>
+
 </html>
