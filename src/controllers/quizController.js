@@ -1,6 +1,7 @@
 var quizModel = require("../models/quizModel");
 
-function guardarResposta (req, res){
+// Lógica da função cadastrar usuário e buscarUltimasMedidas
+function guardarResposta(req, res) {
 
     var fkUsuario = req.body.fkUsuario;
     var fkOpcao = req.body.fkOpcao;
@@ -12,57 +13,67 @@ function guardarResposta (req, res){
     } else if (fkOpcao == undefined) {
         res.status(400).send("Opção não encontrada.");
 
-    } else if(fkPergunta == undefined) {
+    } else if (fkPergunta == undefined) {
         res.status(400).send("Pergunta não encontrada.");
-    
-    }else {
+
+    } else {
 
         quizModel.guardarResposta(fkUsuario, fkOpcao, fkPergunta)
-            .then(
+            .then(function (resultado) {
+                res.json(resultado);
+            })
 
-                function(resultado){
-                    res.status(201).json(resultado);
-                }
-
-            )
-
-            .catch(
-                
-                function(erro){
+            .catch(function (erro) {
                 console.log(erro);
-                console.log("\nHouve um erro", erro.sqlMessage);
+                console.log("Houve um erro", erro.sqlMessage);
                 res.status(500).json(erro.sqlMessage);
             })
     }
 
 }
 
-function mostrarResultado (req, res){
+function mostrarResultado(req, res) {
     var fkUsuario = req.params.fkUsuario;
 
     quizModel.mostrarResultado(fkUsuario)
-    .then(
-        function(resultado){
-            if(resultado.length > 0){
+        .then(function (resultado) {
+            if (resultado.length > 0) {
                 res.json(resultado);
 
             } else {
                 res.status(204).send("Nenhum resultado foi encontrado.")
             }
-        }
-    )
+        })
 
-    .catch(
-        function(erro){
-        console.log(erro);
-        console.log("\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);}
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
 
-    )
+        )
+}
+
+function limparDado(req, res){
+
+    var fkUsuario = req.params.fkUsuario;
+
+    quizModel.limparDado(fkUsuario) 
+        .then(function(resultado){
+            res.json(resultado);
+        })
+        .catch(function(erro){
+            console.log(erro);
+            console.log("Houve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        })
+
 }
 
 module.exports = {
     guardarResposta,
-    mostrarResultado
+    mostrarResultado,
+    limparDado
 }
 

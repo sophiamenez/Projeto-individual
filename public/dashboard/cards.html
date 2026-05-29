@@ -101,12 +101,25 @@
             // Função do botão de iniciar o quiz
             function startGame() {
 
-                // Adiciona e remove o hide
-                $startGameButton.classList.add("hide")
-                $questionsContainer.classList.remove("hide");
+                fetch(`/quiz/deletar/${sessionStorage.ID_USUARIO}`, {
+                    method: "DELETE"
+                })
 
-                // Chamando fução para a próxima
-                displayNextQuestion()
+                .then(function(response){
+                    console.log("Dados deletador");
+
+                    // Adiciona e remove o hide
+                    $startGameButton.classList.add("hide")
+                    $questionsContainer.classList.remove("hide");
+                
+                    // Chamando fução para a próxima
+                    displayNextQuestion()
+                })
+
+                .catch(function(erro){
+                    console.log("Erro ao deletar: ", erro)
+                })
+
             }
 
             // Função para mostrar a próxima pergunta

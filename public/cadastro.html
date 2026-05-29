@@ -121,6 +121,14 @@
       finalizarAguardar();
       return false;
 
+    } else if(!emailVar.includes('@')){
+
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "(O email deve conter '@')";
+
+      finalizarAguardar();
+      return false;
+
     } else if (senhaVar == ""){
 
       cardErro.style.display = "block";

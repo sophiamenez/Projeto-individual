@@ -11,4 +11,8 @@ router.post("/salvar", function (req, res){
     quizController.guardarResposta(req, res);
 });
 
+router.delete("/deletar/:fkUsuario", function(req, res){
+    quizController.limparDado(req,res);
+})
+
 module.exports = router;

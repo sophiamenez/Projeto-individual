@@ -23,7 +23,16 @@ function mostrarResultado (fk_usuario){
 
 }
 
+function limparDado(fk_usuario){
+
+    var instrucaoSql = `DELETE FROM resposta_usuario WHERE fk_usuario = ${fk_usuario}`
+
+    console.log("Executando a instrução SQL:" + instrucaoSql);
+    return database.executar(instrucaoSql);    
+}
+
 module.exports = {
     guardarResposta,
-    mostrarResultado
+    mostrarResultado,
+    limparDado
 }
