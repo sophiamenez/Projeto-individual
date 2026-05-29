@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" href="./css/estilo.css" />
 
     <title>Jogo</title>
@@ -16,13 +17,18 @@
             <span id="mensagem_erro"></span>
         </div>
     </div>
-    
+
     <div class="jogoCont">
 
         <h2>Descubra qual o código pra desbloquear a carta secreta!</h2>
 
-        <p>Você precisa colocar qual a nota músical corresponde a pergunta para receber um código e descobrir qual a sua mensagem secreta.</p>
-        
+        <p>Você precisa colocar qual a nota músical corresponde a pergunta para receber um código e descobrir qual a sua
+            mensagem secreta. <br><br>
+            Você possui 5 tentativas:</p>
+
+        <p><b>1º tentativa: 1000 <br> 2º tentativa: 750 <br> 3º tentativa: 500 <br> 
+            4º tentativa: 300 <br> 5º tentativa: 150</b></p>
+
         <div class="jogoPergunta">
             <p>Qual a segunda nota da escala de Dó Maior:</p> <input id="ipt_re"><br>
             <p>Qual a quarta nota da escala de Dó Maior:</p> <input id="ipt_fa"><br>
@@ -39,42 +45,43 @@
             <input id="ipt_codigo">
 
             <button id="button" type="submit" class="btnJogar" disabled onclick="destravar()">Descubra agora</button>
-            
+
         </div>
 
     </div>
 
-    
+
     <main>
 
         <div class="grid"></div>
 
     </main>
 
-    <button class="btnJogar" style="margin-left: 10%; margin-bottom: 10%;" onclick="window.location.href='index.html'">Voltar</button>
+    <button class="btnJogar" style="margin-left: 10%; margin-bottom: 10%;"
+        onclick="window.location.href='index.html'">Voltar</button>
 
 </body>
 
 <script>
 
     const createElement = (tag, className) => {
-    const element = document.createElement(tag);
-    element.className = className;
-    return element;
+        const element = document.createElement(tag);
+        element.className = className;
+        return element;
     }
 
     const createCard = () => {
 
-    const card = createElement('div', 'carde');
-    const front = createElement('div', 'face front');
-    const back = createElement('div', 'face back');
+        const card = createElement('div', 'carde');
+        const front = createElement('div', 'face front');
+        const back = createElement('div', 'face back');
 
-    front.innerHTML = `Mensagem revelada`;
+        front.innerHTML = `Mensagem revelada`;
 
-    card.appendChild(front);
-    card.appendChild(back);
+        card.appendChild(front);
+        card.appendChild(back);
 
-    return card;
+        return card;
 
     }
 
@@ -83,8 +90,11 @@
     grid.appendChild(carta);
 
     let desbloqueio;
+    let tentativas = 0;
 
-    function jogar(){
+    function jogar() {
+
+        codigo.innerHTML = '';
 
         // Variáveis dos inputs 
         let re = ipt_re.value.toUpperCase();
@@ -92,96 +102,145 @@
         let mi = ipt_mi.value.toUpperCase();
         let vogal = ipt_vogal.value.toUpperCase();
 
-        // Validações de entradas
-        if(re == '' && fa == '' && mi == '' && vogal == ''){
+        if (tentativas >     5) {
+
+            codigo.innerHTML = `Sinto muito, mas seus tentativas acabaram...`;
+
+            // Validações de entradas para os campos não estarem vazios
+        } else if (re == '' && fa == '' && mi == '' && vogal == '') {
 
             cardErro.style.display = "block";
             mensagem_erro.innerHTML = "Preencha todas as entradas para começar o programa";
             return false;
 
-        } else if(re == ''){
+        } else if (re == '') {
 
             cardErro.style.display = "block";
             mensagem_erro.innerHTML = "Preencha qual a segunda nota da escala de Dó Maior";
             return false;
 
-        } else if(fa == ''){
+        } else if (fa == '') {
 
             cardErro.style.display = "block";
             mensagem_erro.innerHTML = "Preencha qual a quarta nota da escala de Dó Maior";
             return false;
 
-        } else if(mi == ''){
+        } else if (mi == '') {
 
             cardErro.style.display = "block";
-            mensagem_erro.innerHTML ="Preencha qual a terceira nota da escala de Dó Maior";
+            mensagem_erro.innerHTML = "Preencha qual a terceira nota da escala de Dó Maior";
             return false;
 
-        } else if(vogal == ''){
+        } else if (vogal == '') {
 
             cardErro.style.display = "block";
-            mensagem_erro.innerHTML ="Preencha alguma vogal qualquer";
+            mensagem_erro.innerHTML = "Preencha alguma vogal qualquer";
             return false;
 
-        } else if(re != 'RE' && re != 'RÉ' && re != 'D'){
+        } else if (re != 'RE' && re != 'RÉ' && re != 'D') {
+
+            tentativas++;
 
             cardErro.style.display = "block";
-            mensagem_erro.innerHTML ="Boa jogada, mas está não é a segunda nota, tente mais uma vezes =)";
+            mensagem_erro.innerHTML = "Boa jogada, mas está não é a segunda nota, tente mais uma vezes =)";
             return false;
 
-        } else if(fa != 'FA' && fa != 'FÁ' && fa != 'F'){
+        } else if (fa != 'FA' && fa != 'FÁ' && fa != 'F') {
+
+            tentativas++;
 
             cardErro.style.display = "block";
-            mensagem_erro.innerHTML ="Boa jogada, mas está não é a quarta nota, tente mais uma vezes =)";
+            mensagem_erro.innerHTML = "Boa jogada, mas está não é a quarta nota, tente mais uma vezes =)";
             return false;
 
-        } else if(mi != 'MI' && mi != 'E'){
+        } else if (mi != 'MI' && mi != 'E') {
+
+            tentativas++;
 
             cardErro.style.display = "block";
-            mensagem_erro.innerHTML ="Boa jogada, mas está não é a terceira nota, tente mais uma vezes =)";
+            mensagem_erro.innerHTML = "Boa jogada, mas está não é a terceira nota, tente mais uma vezes =)";
             return false;
 
-        } else if (vogal != 'A' && vogal != 'E' && vogal != 'I' && vogal != 'O' && vogal != 'U'){
+        } else if (vogal != 'A' && vogal != 'E' && vogal != 'I' && vogal != 'O' && vogal != 'U') {
+
+            tentativas++;
 
             cardErro.style.display = "block";
-            mensagem_erro.innerHTML ="Boa jogada, mas está input é só para vogais (A, E, I, O ou U)";
+            mensagem_erro.innerHTML = "Boa jogada, mas está input é só para vogais (A, E, I, O ou U)";
             return false;
 
-        } else {              
-            
-            // Função para apagar o card
+        } else {
+
+            // Função para apagar o card depois de 5s
             setInterval(sumirMensagem, 5000);
 
+            let pontos = 0;
+
+            if(tentativas == 1){
+
+                pontos = 1000;
+
+            } else if(tentativas == 2){
+
+                pontos = 750;
+                
+            } else if(tentativas == 3){
+
+                pontos = 500;
+
+            } else if(tentativas == 4){
+
+                pontos = 300;
+                
+            } else if(tentativas == 5){
+
+                pontos = 150;
+
+            }
+
+            // Vetor 'vt' armazena as vogais auxiliando para encontrar o número da tabela ASCII referente a sua vogal;
             let vt = ['A', 'E', 'I', 'O', 'U'];
             let vtASCII = [65, 69, 73, 79, 85];
 
+            // Variável para usar no loop
             let achou = 0;
 
-            for(let i = 0; i < vt.length; i++){
-                if(vogal == vt[i]){
+            //  for para percorrer todo o vetor
+            for (let i = 0; i < vt.length; i++) {
+                if (vogal == vt[i]) {
                     achou = vtASCII[i];
+                    break;
 
                 }
             }
 
-            desbloqueio = `${13 + achou}${15 + achou}${14 + achou}`
+            // Variável que recebe o código para desbloquer o botão na função destravar
+            desbloqueio = `${13 + achou}${15 + achou}${14 + achou}`;
 
-            codigo.innerHTML = `Código: ${13 + achou}${15 + achou}${14 + achou}`
-
+            // Será impresso uma fração dos acerto e a porcentagem
+            codigo.innerHTML = `Código: ${13 + achou}${15 + achou}${14 + achou} <br><br>
+            Parabêns, você conseguiu na ${tentativas}/5 tentativas! (${(tentativas/5*100).toFixed(2)}% das tentativas)`;
         }
+
+        // Limpar as inputs
+        ipt_re.value = '';
+        ipt_fa.value = '';
+        ipt_mi.value = '';
+        ipt_vogal.value = '';
+
     }
 
     const destravar = () => {
         const inputCodigo = ipt_codigo.value;
 
-        if(inputCodigo == desbloqueio){
+        if (inputCodigo == desbloqueio) {
             carta.classList.add('reveal-card')
         }
 
     }
 
-    const validateCodigo = ({target}) => {
-        if(target.value.length == 6){
+    const validateCodigo = ({ target }) => {
+        if (target.value.length >= 6) {
             button.removeAttribute('disabled');
 
         } else {
