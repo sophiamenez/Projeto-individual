@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboards</title>
 
-    
+
     <link rel="stylesheet" href="./../css/dashboards.css">
     <link rel="stylesheet" href="./../css/estilo.css" />
     <script src="../js/sessao.js"></script>
@@ -57,83 +57,106 @@
 
         <div class="dash">
 
-            <div style="position: relative; height:60vh; width:60vw">
+            <div class="social">
+
+                <div class="containerKPI">
+
+                    <div class="boxesKPI">
+
+                        <div class="boxKPI">
+
+                            <h4>Método de estudo</h4>
+                            <p id="metodoPerfil"></p>
+
+                        </div>
+
+                        <div class="boxKPI">
+
+                            <h4>Perfil Predominante</h4>
+                            <p id="predominantePerfil"></p>
+
+                        </div>
+
+                        <div class="boxKPI">
+
+                            <h4>Porcentagem Predominante</h4>
+                            <p id="porcentagemPerfil">porcentagem</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div style="position: relative; height:60vh; width:60vw";>
                 <canvas id="myChart"></canvas>
             </div>
 
-            <div class="kpi">
+            <div id="descPerfil"></div>
 
+        </div>
 
+        <script>
 
-            </div>
+            // Nome do usuário
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
-        </div>  
+            // Função para trazer os dados
+            function obterDadosGrafico() {
 
-    </div>
+                var idUsuario = sessionStorage.ID_USUARIO;
 
-<script>
+                fetch(`/quiz/resultado/${idUsuario}`)
 
-    // Nome do usuário
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+                    .then(function (response) {
 
-    // Função para trazer os dados
-    function obterDadosGrafico(){
+                        if (response.ok) {
+                            response.json().then(function (resposta) {
+                                console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                                plotarGrafico(resposta)
+                            })
+                        } else {
+                            console.error(`Nenhum dado encontrado`)
+                        }
+                    })
 
-
-        var idUsuario = sessionStorage.ID_USUARIO;
-
-        fetch(`/quiz/resultado/${idUsuario}`)
-
-        .then(function(response){
-
-            if(response.ok){
-                response.json().then(function(resposta){
-                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-                    plotarGrafico(resposta)
-            })
-            } else {
-                console.error(`Nenhum dado encontrado`)
+                    .catch(function (error) {
+                        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`)
+                    })
             }
-        })
-            
-        .catch(function(error){
-            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`)
-        })
-    }
 
-    function plotarGrafico(resposta, idUsuario){
+            function plotarGrafico(resposta, idUsuario) {
 
-        console.log('Iniciando plotagem do gráfico...')
+                console.log('Iniciando plotagem do gráfico...')
 
-        /*console.log(dados);
-        console.log(dados.length);*/
+                var labels = [];
+                var vlr = [];
 
-        var labels = [];
-        var vlr = [];
+                var cont = 0;
 
-        var cont = 0;
+                while (cont < resposta.length) {
 
-        while(cont < resposta.length){
-
-            labels.push(resposta[cont].perfil);
-            vlr.push(resposta[cont].Total);
+                    labels.push(resposta[cont].perfil);
+                    vlr.push(resposta[cont].Total);
 
 
-            cont++
-        }
+                    cont++
+                }
 
-        const ctx = document.getElementById('myChart');
+                const ctx = document.getElementById('myChart');
 
 
-        new Chart(ctx, {
+                new Chart(ctx, {
                     type: 'pie',
                     data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Perfil',
-                        data: vlr,
-                        borderWidth: 1
-                    }]
+                        labels: labels,
+                        datasets: [{
+                            label: 'Perfil',
+                            data: vlr,
+                            borderWidth: 1
+                        }]
                     },
                     options: {
                         responsive: true,
@@ -145,26 +168,130 @@
                             title: {
                                 display: true,
                                 text: 'Resultado'
-                            
+
+                            }
                         }
                     }
+                });
+
+                console.log('----------------------------------------------')
+                console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+                console.log(resposta)
+
+                console.log('----------------------------------------------')
+                console.log('O gráfico será plotado com os respectivos valores:')
+                console.log('Labels:')
+                console.log(labels)
+                console.log('Dados:')
+                console.log(vlr)
+                console.log('----------------------------------------------')
+
+                // 1º KPI
+                let perfilPredominante = resposta[0].Total;
+                let vtPredominate = [];
+
+                let cont2 = 0;
+
+                while (cont2 < resposta.length) {
+
+                    if (resposta[cont2].Total == perfilPredominante) {
+                        vtPredominate.push(resposta[cont2].perfil)
+                    }
+
+                    cont2++;
                 }
-        });
 
-        console.log('----------------------------------------------')
-        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
-        console.log(resposta)
+                let nomePerfil = '';
 
-        console.log('----------------------------------------------')
-        console.log('O gráfico será plotado com os respectivos valores:')
-        console.log('Labels:')
-        console.log(labels)
-        console.log('Dados:')
-        console.log(resposta.datasets)
-        console.log('----------------------------------------------')
+                for(let i = 0; i < vtPredominate.length; i++){
+                    if(i == 0){
+                        nomePerfil = vtPredominate[0];
+                    } else {
+                        nomePerfil = `${vtPredominate[0]} e ${vtPredominate[i]}`;
+                    }
+                }
 
-    }    
+                //2º KPI
+                let metodos = {
+                    "pratico": "Simulados e Gameficação",
+                    "leitura/escrita": "Resumos e anotações",
+                    "auditivo": "Videoaulas e Podcasts",
+                    "visual": "Mapas mentais e Imagens"
+                }
 
-</script>
+                let nomeMetodos = '';
+
+                for(let i = 0; i < vtPredominate.length; i++){
+                    if(i == 0){
+                        nomeMetodos = metodos[vtPredominate[0]];
+                    } else {
+                        nomeMetodos = `${metodos[vtPredominate[0]]} + ${metodos[vtPredominate[i]]}`;
+                    }
+                }
+
+                //3º KPI
+                let totalPerfil = 0;
+
+                for(let i = 0; i < resposta.length; i++){
+                    totalPerfil += resposta[i].Total;
+                }
+
+                let porcentagem = 0
+
+                for(let i = 0; i < vtPredominate.length; i++){
+                    if(i == 0){
+                        porcentagem = ((perfilPredominante / totalPerfil) * 100).toFixed(0) + '%';
+                    } else {
+                        porcentagem = `Perfil 1: ${((perfilPredominante / totalPerfil) * 100).toFixed(0)}% e Perfil 2: ${((perfilPredominante / totalPerfil) * 100).toFixed(0)}%`;
+                    }
+                }
+
+                document.getElementById("metodoPerfil").textContent = nomeMetodos;
+                document.getElementById("predominantePerfil").textContent = nomePerfil;
+                document.getElementById("porcentagemPerfil").textContent = porcentagem;
+
+                //Descrições dos perfis
+                let descricao = {
+                    "pratico": `Os Práticos são pessoas pragmáticas e focadas em fatos, com uma confiabilidade indiscutível. 
+                    Ler, ver ou ouvir não é suficiente para o seu perfil. Você precisa estar em contato com o conteúdo de forma prática. 
+                    Na música, pessoas com este perfil focam em resultados rápidos e aplicáveis. Ele prioriza o aprendizado de repertório 
+                    e improvisação, em vez de se prender a longas sessões de teoria pura. Seu método é orientado pela ação, resolvendo 
+                    problemas musicais diretamente no instrumento e desenvolvendo o "ouvido" por meio da repetição e da escuta ativa. 
+                    Em geral, você pode parecer inquieto devido à necessidade constante de movimento, um exemplo é quem bate o pé ao pensar 
+                    ou gesticula muito ao falar. Fazer alguma atividade enquanto aprende pode também te ajudar no aprendizado, por exemplo, 
+                    caminhar e escutar um podcast ou jogar uma bola de tênis enquanto lê em voz alta um conteúdo.`,
+
+                    "leitura/escrita": `Você possui facilidade para ler e se expressar por meio da escrita. Isto é, seu estilo de 
+                    aprendizado tende a receber melhor as informações quando são exibidas como palavras e texto. Provavelmente, 
+                    você produz listas e gostam de resumir informações da maneira que fizerem mais sentido. Para você começar hoje 
+                    na música, seu estudos deve ser organizados de uma forma que você veja bastante decodificação de partituras e cifras. 
+                    Assimilando a teoria por meio de textos, anotações e registros gráficos, preferindo estruturar o conhecimento visualmente 
+                    antes de colocá-lo em prática no instrumento.`,
+
+                    "auditivo": `Para você, a melhor forma de aprendizagem é ouvir as informações. Em vez de anotar o que o professor diz, 
+                    você prefere apenas escutar a fala. É comum que talvez você prefiram estudar com gravações, músicas sobre o conteúdo das 
+                    aulas ou lendo em voz alta para si próprio. Um estudante com perfil auditivo, na música, aprende e memoriza melhor através 
+                    da escuta. Retendo melhor as informações ouvindo explicações, melodias e notas, distinguindo facilmente alturas, timbres 
+                    e ritmos.`,
+
+                    "visual": `Você entende há lembram-se melhor das informações vendo. Ou seja, preferem ver as informações apresentadas 
+                    de uma forma visualmente atraente. Você às vezes se distrai em aula, mas fica atento à vídeos ou demonstrações. 
+                    Para o seu desenvolvimento na música você compreenderá e memorizará melhor os conceitos musicais através de imagens, 
+                    cores e representações espaciais. Além de se beneficiar enormemente de partituras, diagramas de acordes, vídeos 
+                    demonstrativos.`
+                }
+
+                for(let i = 0; i < vtPredominate.length; i++){
+                    if(i == 0){
+                        descPerfil.innerHTML = descricao[vtPredominate[0]];
+                    } else {
+                        descPerfil.innerHTML = `${descricao[vtPredominate[0]]}<br><br>${descricao[vtPredominate[i]]}`;
+                    }
+                }
+
+            }
+
+        </script>
 </body>
+
 </html>
