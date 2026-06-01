@@ -79,7 +79,7 @@
 
     // Função principal do login
     function entrar() {
-        
+
         aguardar();
 
         var emailVar = email_input.value;
@@ -93,14 +93,14 @@
             finalizarAguardar();
             return false;
 
-        } else if(emailVar == ""){
+        } else if (emailVar == "") {
 
             cardErro.style.display = "block"
             mensagem_erro.innerHTML = "(Por favor, preencha o e-mail)";
             finalizarAguardar();
             return false;
 
-        } else if(!emailVar.includes('@')){
+        } else if (!emailVar.includes('@')) {
 
             cardErro.style.display = "block";
             mensagem_erro.innerHTML = "(O email deve conter '@')";
@@ -108,7 +108,7 @@
             finalizarAguardar();
             return false;
 
-        }else if(senhaVar == ""){
+        } else if (senhaVar == "") {
 
             cardErro.style.display = "block"
             mensagem_erro.innerHTML = "(Por favor, preencha a senha)";
@@ -178,7 +178,7 @@
 
                 });
 
-            // Se não, mensagem de erro no console
+                // Se não, mensagem de erro no console
             } else {
 
                 console.log("Houve um erro ao tentar realizar o login!");
@@ -189,7 +189,7 @@
                 });
             }
 
-        // Função .catch para erro
+            // Função .catch para erro
         }).catch(function (erro) {
             console.log(erro);
         })

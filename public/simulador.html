@@ -41,21 +41,29 @@
     <div class="simulador">
         <div class="container">
             <h2>Linha do tempo</h2>
-            <p style="color: #DCEEFF;"> ACOMPANHE A SEGUIR UMA LINHA DO TEMPO SOBRE COMO 
+            <p style="color: #DCEEFF;"> ACOMPANHE A SEGUIR UMA LINHA DO TEMPO SOBRE COMO
                 FOI MEU DESENVOLVIMENTO NA MÚSICA ATÉ DESCOBRIR QUE GOSTO DE ENSINAR
             </p>
         </div>
 
     </div>
 
+    <!--Linha do tempo vertical animado
+    1º Passo: Em uma div principal com a classe timeline, sáo criados
+    um elemento cont que pode ser tanto left-cont quanto right-cont, e dentro de
+    cada cont tem um título, data (dentro da tag small) e uma descrição, além da seta decorativa.
+    -->
+
     <div class="timeline">
 
         <div class="cont left-cont">
             <div class="text-box">
 
+                <!--Título, data e descrição-->
                 <h2>Primeiro Contato</h2>
                 <small>2017</small>
-                <p>Meu primeiro contato foi aos 13 anos, comecei a aprender música em uma ingreja bem tradicional onde o metodo
+                <p>Meu primeiro contato foi aos 13 anos, comecei a aprender música em uma ingreja bem tradicional onde o
+                    metodo
                     de ensino era começar com teoria musical pesada para depois iniciar no instrumento.
                 </p>
                 <span class="left-cont-arrow"></span>
@@ -69,7 +77,8 @@
 
                 <h2>Segunda chance</h2>
                 <small>2019</small>
-                <p>Aos 13 anos foi quando decidi dar mais uma chance e comecei da maneira que mais me identifiquei, praticando.</p>
+                <p>Aos 13 anos foi quando decidi dar mais uma chance e comecei da maneira que mais me identifiquei,
+                    praticando.</p>
                 <span class="right-cont-arrow"></span>
 
             </div>
@@ -81,7 +90,8 @@
 
                 <h2>Momento de descoberta</h2>
                 <small>2021</small>
-                <p>Com 15 anos, eu já tinha evoluido super bem no violão, ao ponto de ser convidada a dar aula para os iniciantes.</p>
+                <p>Com 15 anos, eu já tinha evoluido super bem no violão, ao ponto de ser convidada a dar aula para os
+                    iniciantes.</p>
                 <span class="left-cont-arrow"></span>
 
             </div>
@@ -93,7 +103,8 @@
 
                 <h2>Usando meu talento</h2>
                 <small>2021</small>
-                <p>No mesmo ano, eu decidi ajudar uma igreja em cultos de semena e está iniciativa me fez evoluir muito mais.</p>
+                <p>No mesmo ano, eu decidi ajudar uma igreja em cultos de semena e está iniciativa me fez evoluir muito
+                    mais.</p>
                 <span class="right-cont-arrow"></span>
 
             </div>
@@ -102,120 +113,136 @@
 
     </div>
 
-
-
-
-<section class="fluxo">
+    <!--CARROSEL-->
+    <section class="fluxo">
 
         <h1>MINHA GALERIA</h1>
 
-    <div class="carousel">    
+        <!-- 1º Passo: Criar container e elementos filhos com números para identicação
+        2ª Passo: Configirar o CSS
+        3º Passo: Duplicar as caixas para o efeiro de infinito 
+        ATENÇÃO: na duplicação das caixas, deve-se adicionar um 'aria-hidden' (área oculta) para que sejá ignorada pelas ferramentas de acessibilidade-->
 
-        <div class="group">
 
-            <div class="caixa">
+        <div class="carousel">
 
-                <video autoplay loop muted playsinline>
+            <div class="group">
 
-                <source src="..\assets\gif\video-project3 1.mp4" alt="gif-1">
+                <div class="caixa">
 
-                </video>
+                    <!--autoplay: inicia sozinho; 
+                    loop: repete continuamente; 
+                    muted: tira o som para o autoplay funcionar; 
+                    playsinline: indica que o video deve ser reproduzido em "em linha"-->
 
-            </div>
+                    <video autoplay loop muted playsinline>
 
-            <div class="caixa">
+                        <source src="..\assets\gif\video-project3 1.mp4" alt="gif-1">
 
-                <img src="..\assets\imgs\1000254140.jpg" alt="img-1">
+                    </video>
 
-            </div>
+                </div>
 
-            <div class="caixa">
+                <div class="caixa">
 
-                <video autoplay loop muted playsinline>
+                    <img src="..\assets\imgs\1000254140.jpg" alt="img-1">
 
-                    <source src="../assets/gif/video-project2.mp4" alt="gif-2">
+                </div>
 
-                </video>
+                <div class="caixa">
 
-            </div>
+                    <video autoplay loop muted playsinline>
 
-            <div class="caixa">
+                        <source src="../assets/gif/video-project2.mp4" alt="gif-2">
 
-                <img src="../assets/imgs/1000254138.jpg" alt="img-2">
+                    </video>
 
-            </div>
+                </div>
 
-            <div class="caixa">
+                <div class="caixa">
 
-                <video autoplay loop muted playsinline>
+                    <img src="../assets/imgs/1000254138.jpg" alt="img-2">
 
-                    <source src="../assets/gif/video-project1.mp4" alt="gif-3">
+                </div>
 
-                </video>
+                <div class="caixa">
 
-            </div>
+                    <video autoplay loop muted playsinline>
 
-            <div class="caixa">
+                        <source src="../assets/gif/video-project1.mp4" alt="gif-3">
 
-                <img src="../assets/imgs/1000010120.png" alt="img-3">
+                    </video>
 
-            
-            </div>
+                </div>
 
-            <div class="caixa">
+                <div class="caixa">
 
-                <video autoplay loop muted playsinline>
+                    <img src="../assets/imgs/1000010120.png" alt="img-3">
 
-                <source src="..\assets\gif\video-project3 1.mp4" alt="gif-1">
 
-                </video>
+                </div>
 
-            </div>
+                <!--Duplicata-->
 
-            <div class="caixa">
+                <div aria-hidden class="caixa">
 
-                <img src="..\assets\imgs\1000254140.jpg" alt="img-1">
+                    <video autoplay loop muted playsinline>
 
-            </div>
+                        <source src="..\assets\gif\video-project3 1.mp4" alt="gif-1">
 
-            <div class="caixa">
+                    </video>
 
-                <video autoplay loop muted playsinline>
+                </div>
 
-                    <source src="../assets/gif/video-project2.mp4" alt="gif-2">
+                <div class="caixa">
 
-                </video>
+                    <img src="..\assets\imgs\1000254140.jpg" alt="img-1">
 
-            </div>
+                </div>
 
-            <div class="caixa">
+                <div class="caixa">
 
-                <img src="../assets/imgs/1000254138.jpg" alt="img-2">
+                    <video autoplay loop muted playsinline>
 
-            </div>
+                        <source src="../assets/gif/video-project2.mp4" alt="gif-2">
 
-            <div class="caixa">
+                    </video>
 
-                <video autoplay loop muted playsinline>
+                </div>
 
-                    <source src="../assets/gif/video-project1.mp4" alt="gif-3">
+                <div class="caixa">
 
-                </video>
+                    <img src="../assets/imgs/1000254138.jpg" alt="img-2">
 
-            </div>
+                </div>
 
-            <div class="caixa">
+                <div class="caixa">
 
-                <img src="../assets/imgs/1000010120.png" alt="img-3">
+                    <video autoplay loop muted playsinline>
 
-            
+                        <source src="../assets/gif/video-project1.mp4" alt="gif-3">
+
+                    </video>
+
+                </div>
+
+                <div class="caixa">
+
+                    <img src="../assets/imgs/1000010120.png" alt="img-3">
+
+
+                </div>
+
             </div>
 
         </div>
 
-    </div>
+    </section>
 
-</section>
+    <!--Botão para voltar para a home-->
+    <button class="btnJogar" style="margin-left: 10%; margin-bottom: 10%;"
+        onclick="window.location.href='index.html'">Voltar</button>
+
 
 </body>
 
