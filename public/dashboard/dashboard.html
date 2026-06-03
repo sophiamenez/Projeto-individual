@@ -100,10 +100,8 @@
 
         <script>
 
-            // Nome do usuário
             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
-            // Função para trazer os dados
             function obterDadosGrafico() {
 
                 var idUsuario = sessionStorage.ID_USUARIO;
@@ -242,7 +240,8 @@
                     if(i == 0){
                         porcentagem = ((perfilPredominante / totalPerfil) * 100).toFixed(0) + '%';
                     } else {
-                        porcentagem = `Perfil 1: ${((perfilPredominante / totalPerfil) * 100).toFixed(0)}% e Perfil 2: ${((perfilPredominante / totalPerfil) * 100).toFixed(0)}%`;
+                        porcentagem = `Perfil 1: ${((perfilPredominante / totalPerfil) * 100).toFixed(0)}% 
+                        e Perfil 2: ${((perfilPredominante / totalPerfil) * 100).toFixed(0)}%`;
                     }
                 }
 
@@ -285,7 +284,7 @@
                     if(i == 0){
                         descPerfil.innerHTML = descricao[vtPredominate[0]];
                     } else {
-                        descPerfil.innerHTML = `${descricao[vtPredominate[0]]}<br><br>${descricao[vtPredominate[i]]}`;
+                        descPerfil.innerHTML = `${descricao[vtPredominate[0]]} Além de que, ${descricao[vtPredominate[i]]}`;
                     }
                 }
 

@@ -85,20 +85,6 @@ body {
   margin: 0;
   padding: 0;
   font-size: 64px;
-  line-height: 1.2;
-  animation: surgir 2s ease;
-}
-
-@keyframes surgir {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .banner .container span {
@@ -172,6 +158,31 @@ body {
   transform: translateY(-3px);
 }
 
+.btn11 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.btn11 button {
+  font-family: 'Barlow', sans-serif;
+  background-color: #07131F;
+  color: #32b9cd;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn11 button:hover {
+  background-color: #07131F;
+  transform: translateY(-3px);
+}
+
 .bnt2 {
   width: 100%;
   display: flex;
@@ -181,7 +192,7 @@ body {
 
 .bnt2 button {
   font-family: 'Barlow', sans-serif;
-  background-color: #32b9cd;
+  background-color: #1D4ED8;
   color: #07131F;
   border: none;
   border-radius: 8px;
@@ -193,7 +204,7 @@ body {
 }
 
 .bnt2 button:hover {
-  background-color: #32b9cd;
+  background-color: #1D4ED8;
   transform: translateY(-3px);
 }
 
@@ -218,7 +229,7 @@ body {
 
 .intro-music .content p {
   font-size: 1.1rem;
-  color: #DCEEFF;
+  color: #32b9cd;
   line-height: 1.8;
   margin: 0;
 }
@@ -230,7 +241,7 @@ body {
 
 .beneficio-titulo {
   font-size: 1.1rem;
-  color: #DCEEFF;
+  color: #32b9cd ;
   line-height: 1.8;
   text-align: center;
   max-width: 900px;
@@ -324,17 +335,12 @@ body {
 
 .social {
   background-color: transparent;
-  padding: 0;
 
 }
 
 .social .container {
   width: 88%;
   margin: auto;
-}
-
-.box img {
-  width: 90px;
 }
 
 .social .container .boxes {
@@ -349,8 +355,7 @@ body {
   background-color: #07131F;
   padding: 2rem;
   border-radius: 20px;
-  transition: 0.3s ease;
-  /*cursor: pointer;*/
+  transition: 0.5s ease;
 
   display: flex;
   flex-direction: column;
@@ -596,6 +601,27 @@ body {
   margin-top: 20px;
 }
 
+.botaoCad{
+  cursor: pointer;
+  font-family: "Barlow", sans-serif;
+  border: 0;
+  font-weight: 600;
+  font-size: 12px;
+  color: #32b9cd;
+  background-color: #0F2740;
+}
+
+.styleCad{
+  font-family: "Barlow", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: white;
+  background-color: #0F2740;
+  align-self: center;
+  height: 30px;
+  margin-top: 20px;
+}
+
 .loading-div {
   width: 50px;
   display: none;
@@ -709,7 +735,6 @@ input {
   position: relative;
   max-width: 1000px;
   margin: 100px auto;
-
 }
 
 .cont {
@@ -717,12 +742,9 @@ input {
   position: relative;
   width: 45%;
   animation: movedown 1s linear forwards;
-  opacity: 0;/*Garante que os itens estejam invisíveis antes da animação*/
+  opacity: 0;
 }
 
-/*1º animação:
-Faz cada cont aparecer descendo suavemente e cada filho tem um 
-animation-delay difeente criando o efeito de aparecer um após o outro*/
 @keyframes movedown {
   0% {
     opacity: 1;
@@ -760,8 +782,6 @@ animation-delay difeente criando o efeito de aparecer um após o outro*/
   color: #07131F
 }
 
-/*Determinação das posiç]oes de esquerda e direita criando um efeito alternado
-dos dois lados com uma linha no meio*/
 .left-cont {
   left: 0;
 }
@@ -771,10 +791,6 @@ dos dois lados com uma linha no meio*/
   width: 45%;
 }
 
-/*Linha central: é um pseudoelemento na timeline posicionado ao centro (left: 50%)
-com a largura de 6px e animação moveline que faz a lina crescer de cima para baixo
-ao carregar a página, é utilizado o ::afterporque é um elemento filho falso que o CSS 
-cria em qualquer tag*/
 .timeline::after {
   content: '';
   position: absolute;
@@ -788,8 +804,6 @@ cria em qualquer tag*/
   animation: moveline 6s linear forwards;
 }
 
-/*2º Primeira animação:
-Fazendo a linha crescer do topo até o fim*/
 @keyframes moveline {
   0% {
     height: 0;
@@ -802,7 +816,6 @@ Fazendo a linha crescer do topo até o fim*/
 
 .text-box h2 {
   font-weight: 600;
-
 }
 
 .text-box small {
@@ -810,9 +823,6 @@ Fazendo a linha crescer do topo até o fim*/
   margin-bottom: 15px;
 }
 
-/*Criação das setas tanto da direita quanto da esquerda.
-A ideia foi criar um elemento com altura e largura zero e
-manipular as bordas, construindo um triângulo.*/
 .left-cont-arrow {
   height: 0;
   width: 0;
@@ -924,24 +934,20 @@ fazendo as setas apontarem para o mesmo lado também*/
   box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.25);
 }
 
-/*CARROSSEL
-
-Início de configurações básicas:*/
 .carousel {
   margin: 60px auto;
   width: 95%;
   display: flex;
-  overflow: hidden; /* Animação para rolar as fotos */
+  overflow: hidden;
 }
 
 .group {
-  display: flex; /*Alinhar os elementos gráficos lado a lado*/
+  display: flex;
   gap: 30px;
   width: max-content;
-  animation: spin 30s infinite linear; /*Animação adicionada com duração de 30s infinita e linear*/
-  padding-right: 2em; /*Serve para compensa o gap entre o último e primeiro item*/
+  animation: spin 30s infinite linear;
+  padding-right: 2em;
 }
-/*Fim de configurações básicas*/
 
 .caixa img,
 .caixa video {
@@ -952,7 +958,6 @@ Início de configurações básicas:*/
   flex-shrink: 0;
 }
 
-/*Criação da animação*/
 @keyframes spin {
   from {
     transform: translateX(0);
@@ -1002,7 +1007,7 @@ Início de configurações básicas:*/
   height: 48px;
   animation-name: bell;
   animation-duration: 4s;
-  background-image: url('https://cdn-icons-png.flaticon.com/512/1157/1157000.png');
+  /* background-image: url('https://cdn-icons-png.flaticon.com/512/1157/1157000.png'); */
   background-size: cover;
   animation-iteration-count: infinite;
 }
@@ -1218,7 +1223,7 @@ header {
   align-items: center;
   justify-content: center;
   background-color: #90E0EF;
-  color: white;
+  color: black;
   font-size: 1rem;
   text-align: center;
   padding: 10px;

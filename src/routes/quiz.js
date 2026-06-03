@@ -15,4 +15,4 @@ router.delete("/deletar/:fkUsuario", function(req, res){
     quizController.limparDado(req,res);
 })
 
-module.exports = router;
+module.exports = router; 

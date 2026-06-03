@@ -108,11 +108,9 @@
                 .then(function(response){
                     console.log("Dados deletador");
 
-                    // Adiciona e remove o hide
                     $startGameButton.classList.add("hide")
                     $questionsContainer.classList.remove("hide");
-                
-                    // Chamando fução para a próxima
+
                     displayNextQuestion()
                 })
 
@@ -125,77 +123,44 @@
             // Função para mostrar a próxima pergunta
             function displayNextQuestion() {
 
-                // Chamando a função resetState
                 resetState()
 
-                // Verifica se o tamanho do vetor esta igual a quantidade de currentQuestionIndex para finalizar o quiz.
                 if (questions.length === currentQuestionIndex) {
                     return finishGame()
                 }
 
-                // Exibe o texto da pergunta
                 $questionText.textContent = questions[currentQuestionIndex].pergunta
-
-                // Criação dos botões
                 questions[currentQuestionIndex].opcoes.forEach(opcao => {
                     const newAnswer = document.createElement("button")
-
-                    // Traz o estilo css
                     newAnswer.classList.add("button", "answer")
-
-                    //Mostra o texto da opção
                     newAnswer.textContent = opcao.texto
-
-                    // Armazena o perfil da opção
                     newAnswer.dataset.perfil = opcao.perfil
-
-                    // Armazena o id da opção
                     newAnswer.dataset.id = opcao.id
-
-                    // Armazena o número da pergunta
                     newAnswer.dataset.perguntaId = currentQuestionIndex + 1;
-
-                    // Torna o botão visível
                     $answersContainer.appendChild(newAnswer)
-
-                    // Registra o momento do click
                     newAnswer.addEventListener("click", selectAnswer)
                 })
             }
 
             // Função para ir para a próxima pergunta
             function resetState() {
-
-                // While para retirar as perguntas anteriores
                 while ($answersContainer.firstChild) {
                     $answersContainer.removeChild($answersContainer.firstChild)
                 }
-
-                // Habilita o botão para hide novamente para desaparecer na tela e só paracere quando seleciona a resposta
                 $nextQuestionButton.classList.add("hide")
             }
 
-            // Função para saber qual butão o usuario acessou, event indica qual butão o usuário clicou
             function selectAnswer(event) {
 
-                // Descobre qual botão o usuário clicou
                 const answerClicked = event.target
-
-                // Desabilita os botões de resposta
                 document.querySelectorAll(".answer").forEach(button => {
                     button.disabled = true
                 })
-
-                // Destaca o botão clicado
                 answerClicked.classList.add("correct");
-
-                // Remove a class hide para mostrar o botão de ir a próxima pergunta
                 $nextQuestionButton.classList.remove("hide");
 
-                // Incrementa a resposta para a próxima pergunta
                 currentQuestionIndex++;
 
-                // Salva as respostas
                 fetch("/quiz/salvar", {
                     method: "POST",
                     headers: {
@@ -210,7 +175,6 @@
                     )
                 })
 
-                    // Tratando os dados com o .then e .catch
                     .then(function (resposta) {
                         console.log("Resposta salva!");
                     })
@@ -222,18 +186,14 @@
 
             function finishGame() {
 
-                // Fazer a msg aparecer dentro da div
                 $questionsContainer.innerHTML = `
             <p class="final-message">
                 Você completou o quiz!
                 <span>Veja seus resultados na página de Resultados.</span>
             </p>
-            <button onclick="window.location.reload()" class="button">Faça de novo!</button>
-        `
+            <button onclick="window.location.reload()" class="button">Faça de novo!</button>`
             }
 
-            /*cont questions é um vetor que armazenará as perguntas e os perfis, como se fosse um banco de perguntas.
-            Além de ser um vetor onde cada posição é um objeto que é uma pergunta com os possíveis perfis.*/
             const questions = [
                 {
                     // Pergunta 1
@@ -274,7 +234,7 @@
 
                         {
                             id: 5,
-                            texto: "Um lugar onde eu posso me movimentar e fazer pausar frequentes para organizar as ideias",
+                            texto: "Um lugar onde eu posso me movimentar e fazer pausar para organizar as ideias",
                             perfil: "pratico"
                         },
 
@@ -306,7 +266,7 @@
 
                         {
                             id: 9,
-                            texto: "Corro para fazer vários exercícios até entender o assunto'",
+                            texto: "Corro para fazer vários exercícios até entender o assunto",
                             perfil: "pratico"
                         },
 
@@ -337,7 +297,7 @@
 
                         {
                             id: 13,
-                            texto: "Vou direto juntando as peças e procurando entender o móvel conforme vou montando",
+                            texto: "Vou juntando as peças e procurando entender conforme vou montando",
                             perfil: "pratico"
                         },
 

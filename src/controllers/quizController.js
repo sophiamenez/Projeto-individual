@@ -1,12 +1,9 @@
 var quizModel = require("../models/quizModel");
 
-// Lógica da função cadastrar usuário e buscarUltimasMedidas
 function guardarResposta(req, res) {
-
     var fkUsuario = req.body.fkUsuario;
     var fkOpcao = req.body.fkOpcao;
     var fkPergunta = req.body.fkPergunta;
-
     if (fkUsuario == undefined) {
         res.status(400).send("Usuário não encontrado.");
 
@@ -34,17 +31,15 @@ function guardarResposta(req, res) {
 
 function mostrarResultado(req, res) {
     var fkUsuario = req.params.fkUsuario;
-
     quizModel.mostrarResultado(fkUsuario)
         .then(function (resultado) {
-            if (resultado.length > 0) {
+            if (resultado.length > 0){
                 res.json(resultado);
 
             } else {
                 res.status(204).send("Nenhum resultado foi encontrado.")
             }
         })
-
         .catch(
             function (erro) {
                 console.log(erro);
@@ -56,9 +51,7 @@ function mostrarResultado(req, res) {
 }
 
 function limparDado(req, res){
-
     var fkUsuario = req.params.fkUsuario;
-
     quizModel.limparDado(fkUsuario) 
         .then(function(resultado){
             res.json(resultado);

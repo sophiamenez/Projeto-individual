@@ -5,7 +5,7 @@ function guardarResposta (fk_usuario, fk_opcao, fk_pergunta){
     var instrucaoSql = `INSERT INTO resposta_usuario (fk_usuario, fk_opcao, fk_pergunta)
     VALUES(${fk_usuario}, ${fk_opcao}, ${fk_pergunta})`;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrução SQL: " + instrucaoSql);
     return database.executar(instrucaoSql);
 
 }
@@ -18,7 +18,7 @@ function mostrarResultado (fk_usuario){
     GROUP BY o.perfil
     ORDER BY total DESC`;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrução SQL: " + instrucaoSql);
     return database.executar(instrucaoSql);
 
 }
@@ -36,3 +36,4 @@ module.exports = {
     mostrarResultado,
     limparDado
 }
+

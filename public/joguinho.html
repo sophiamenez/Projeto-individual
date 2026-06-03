@@ -79,7 +79,6 @@
 
 <script>
 
-    // Função para criar a carta
     const createCard = () => {
 
         const card = document.createElement('div');
@@ -93,14 +92,10 @@
 
     }
 
-    /*O querySelector tem o objetivo de encontrar o 'grid' no html,
-    depois o a variável carta recebe a função createCard. Por fim, o 
-    appendChild tem a função de adicionar a carta dentro do grid*/
     const grid = document.querySelector('.grid');
     const carta = createCard();
     grid.appendChild(carta);
 
-    // Variáveis globais para contar tentativas e desbloquear as cartas
     let desbloqueio = '';
     let tentativas = 0;
 
@@ -188,36 +183,32 @@
 
             let pontos = 0;
 
-            if (tentativas == 1) {
+            if (tentativas == 0) {
 
                 pontos = 1000;
 
-            } else if (tentativas == 2) {
+            } else if (tentativas == 1) {
 
                 pontos = 750;
 
-            } else if (tentativas == 3) {
+            } else if (tentativas == 2) {
 
                 pontos = 500;
 
-            } else if (tentativas == 4) {
+            } else if (tentativas == 3) {
 
                 pontos = 300;
 
-            } else if (tentativas == 5) {
+            } else if (tentativas == 4) {
 
                 pontos = 150;
 
             }
 
-            // Vetor 'vt' armazena as vogais auxiliando para encontrar o número da tabela ASCII referente a sua vogal;
             let vt = ['A', 'E', 'I', 'O', 'U'];
             let vtASCII = [65, 69, 73, 79, 85];
 
-            // Variável para usar no loop
             let achou = 0;
-
-            //  for para percorrer todo o vetor
             for (let i = 0; i < vt.length; i++) {
                 if (vogal == vt[i]) {
                     achou = vtASCII[i];
@@ -226,15 +217,11 @@
                 }
             }
 
-            // Variável que recebe o código para desbloquer o botão na função destravar
             desbloqueio = `${13 + achou}${15 + achou}${14 + achou}`;
-
-            // Será impresso uma fração dos acerto e a porcentagem
             codigo.innerHTML = `Código: ${13 + achou}${15 + achou}${14 + achou} <br><br>
-            Parabêns, você conseguiu em ${tentativas}/5 tentativas! (${(tentativas / 5 * 100).toFixed(2)}% das tentativas)`;
+            Parabêns, você conseguiu ${pontos} em ${tentativas}/5 tentativas! (${(tentativas / 5 * 100).toFixed(2)}% das tentativas)`;
         }
 
-        // Limpar as inputs
         ipt_re.value = '';
         ipt_fa.value = '';
         ipt_mi.value = '';
@@ -242,7 +229,6 @@
 
     }
 
-    // Função para destravar a carta, compara a váriavel desbloqueio com o ipt_codigo
     const destravar = () => {
     const inputCodigo = ipt_codigo.value;
 
@@ -252,7 +238,6 @@
 
     }
 
-    // Funçao para habilitar e desabilitar o botão
     const validateCodigo = ({ target }) => {
         if (target.value.length >= 6) {
             button.removeAttribute('disabled');
