@@ -83,7 +83,6 @@
 
 <script>
 
-    // Função principal do login
     function entrar() {
 
         aguardar();
@@ -122,51 +121,28 @@
 
         } else {
 
-            // setInterval chama a função 'sumirMensagem' e faz desaparecer em 5 segundos
             setInterval(sumirMensagem, 5000)
         }
 
-        // Mensagem que aparece no console.log
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
-        // Função fetch para buscar e enviar dados
         fetch("/usuarios/autenticar", {
 
-            // Enviando dados
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
 
-            // Recebendo os dados das inputs
             body: JSON.stringify({
                 emailServer: emailVar,
                 senhaServer: senhaVar
             })
 
-            // Fim da função fetch e início do método .then e .catch.
-
-            // Os método .then e .catch são usados para manipular Promises.
-
-            /*
-            Uma Promise é um objeto que representa um valor que pode estar disponível agora, no futuro ou nunca. 
-            Promises (promessas) são frequentemente usadas para operações assíncronas, como fazer requisições de rede, 
-            ler arquivos ou executar tarefas que levam algum tempo para serem concluídas.
-
-            Método .then(): É usado para manipular o resultado (ou erro) de uma Promise. Ele permite que você especifique o que fazer 
-            quando a Promise é resolvida ou quando é rejeitada.
-
-            */
-
-            // umaPromise.then(funcaoSucesso).catch(funcaoErro);
-
         }).then(function (resposta) {
 
-            // Mensagem que aparece no console
             console.log("ESTOU NO THEN DO entrar()!")
 
-            // If para verificar se os dados estão certos(ok)
             if (resposta.ok) {
                 console.log(resposta);
 
@@ -183,7 +159,6 @@
 
                 });
 
-                // Se não, mensagem de erro no console
             } else {
 
                 console.log("Houve um erro ao tentar realizar o login!");
@@ -194,7 +169,6 @@
                 });
             }
 
-            // Função .catch para erro
         }).catch(function (erro) {
             console.log(erro);
         })

@@ -103,7 +103,6 @@
 
         codigo.innerHTML = '';
 
-        // Variáveis dos inputs 
         let re = ipt_re.value.toUpperCase();
         let fa = ipt_fa.value.toUpperCase();
         let mi = ipt_mi.value.toUpperCase();
@@ -113,7 +112,6 @@
 
             codigo.innerHTML = `Sinto muito, mas seus tentativas acabaram...`;
 
-            // Validações de entradas para os campos não estarem vazios
         } else if (re == '' && fa == '' && mi == '' && vogal == '') {
 
             cardErro.style.display = "block";
